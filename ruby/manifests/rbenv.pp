@@ -29,7 +29,7 @@ class ruby::rbenv (
 	    group => $group,
 	    require => Rbenv::Compile["$requested_ruby"],
 	  }
-	  $bundle_requires = [ Rbenv::Compile["$requested_ruby"] ]
+	  $bundle_requires = [ Rbenv::Compile["$requested_ruby"], Exec["rehash-after-compile"] ]
   } else {
     $bundle_requires = []
   }
