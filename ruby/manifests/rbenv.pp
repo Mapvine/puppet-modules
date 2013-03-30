@@ -37,7 +37,7 @@ class ruby::rbenv (
     group => $group,
     subscribe => Vcsrepo[$repository_path],
     require => $bundle_requires,
-  }ps auxw
+  }
 
   # rehash after calling bundle
   exec { "rehash":
