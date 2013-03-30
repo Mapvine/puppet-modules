@@ -20,6 +20,15 @@ class ruby::rbenv (
 	    home => $home,
 	    global => true,
 	  }
+	  # rehash after calling bundle
+	  exec { "rehash-after-compile":
+	    command => "rbenv rehash",
+	    path => "$home/.rbenv/bin:${home}/.rbenv/shims:/bin:/usr/bin",
+	    cwd => $repository_path,
+	    user => $username,
+	    group => $group,
+	    require => Rbenv::Compile["$requested_ruby"],
+	  }
 	  $bundle_requires = [ Rbenv::Compile["$requested_ruby"] ]
   } else {
     $bundle_requires = []
@@ -28,6 +37,9 @@ class ruby::rbenv (
   # bundle install latest dependencies
   exec { "bundle":
     command => "bundle --deployment --path=vendor/bundle --binstubs=bin",
+    timeout => 0,
+    # show output to find missing system libraries
+    logoutput => true,
     path => "${home}/bin:${home}/.rbenv/shims:/bin:/usr/bin",
     cwd => $repository_path,
     user => $username,
