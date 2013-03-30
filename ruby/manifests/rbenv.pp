@@ -12,7 +12,7 @@ class ruby::rbenv (
   }
   
   # check for a requested ruby version in the repo
-  $ruby_string = file("$repository_path/.ruby_version", "/dev/null")
+  $ruby_string = file("$repository_path/.ruby-version", "/dev/null")
   $requested_ruby = inline_template("<%= @ruby_string.chomp %>")   
   if $requested_ruby {
 	  rbenv::compile { "$requested_ruby":
