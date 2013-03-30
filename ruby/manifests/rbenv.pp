@@ -20,16 +20,7 @@ class ruby::rbenv (
 	    home => $home,
 	    global => true,
 	  }
-	  # rehash after calling bundle
-	  exec { "rehash-after-compile":
-	    command => "rbenv rehash",
-	    path => "$home/.rbenv/bin:${home}/.rbenv/shims:/bin:/usr/bin",
-	    cwd => $repository_path,
-	    user => $username,
-	    group => $group,
-	    require => Rbenv::Compile["$requested_ruby"],
-	  }
-	  $bundle_requires = [ Rbenv::Compile["$requested_ruby"], Exec["rehash-after-compile"] ]
+	  $bundle_requires = [ Rbenv::Compile["$requested_ruby"] ]
   } else {
     $bundle_requires = []
   }
@@ -40,13 +31,13 @@ class ruby::rbenv (
     timeout => 0,
     # show output to find missing system libraries
     logoutput => true,
-    path => "${home}/bin:${home}/.rbenv/shims:/bin:/usr/bin",
+    path => "$home/bin:$home/.rbenv/bin:$home/.rbenv/shims:/bin:/usr/bin",
     cwd => $repository_path,
     user => $username,
     group => $group,
     subscribe => Vcsrepo[$repository_path],
     require => $bundle_requires,
-  }
+  }ps auxw
 
   # rehash after calling bundle
   exec { "rehash":
