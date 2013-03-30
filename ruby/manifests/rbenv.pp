@@ -19,10 +19,11 @@ class ruby::rbenv (
 	    user => $username,
 	    home => $home,
 	    global => true,
+	    require => Rbenv::Install[$username];
 	  }
 	  $bundle_requires = [ Rbenv::Compile["$requested_ruby"] ]
   } else {
-    $bundle_requires = []
+    $bundle_requires = [ Rbenv::Install[$username] ]
   }
     
   # bundle install latest dependencies
