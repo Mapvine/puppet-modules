@@ -1,12 +1,13 @@
-class ruby::config {
-
-  # local variables
-  $repository_path = "$ruby::params::repository_path"
-  $app_name = "$ruby::params::app_name"
-  $username = "$ruby::params::username"
-  $env_path = "$opdemand::inputs::env_path"
-  $port = "$ruby::params::port"
-  $concurrency = "$ruby::params::concurrency"
+class ruby::config (
+  $username = "ubuntu",
+  $group = "ubuntu",  
+  $home = "/home/ubuntu",
+  $repository_path = "/home/ubuntu/repo",
+  $app_name = "ruby",
+  $port = 5000,
+  $concurrency = "web=1",
+  $env_path = "/var/cache/opdemand/inputs.json",
+){
   
   # rebuild upstart conf files
   exec {"rebuild-upstart":

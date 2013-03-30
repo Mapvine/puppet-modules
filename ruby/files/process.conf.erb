@@ -1,13 +1,17 @@
 start on starting <%= app %>-<%= process.name %>
 stop on stopping <%= app %>-<%= process.name %>
-respawn
+#respawn
 
 setuid <%= user %>
 setgid <%= user %>
 
 script
-  . /home/ubuntu/.opdemand
+  # put rbenv into the path
+  export HOME=/home/ubuntu
+  export PATH=$HOME/.rbenv/bin:$HOME/.rbenv/shims:$PATH
+  # start the application
   cd <%= engine.directory %>
+  . /home/ubuntu/.opdemand
   export PORT=<%= port %>
   exec <%= process.command %> >> <%= log_root %>/<%=process.name%>-<%=num%>.log 2>&1
 end script

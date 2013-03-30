@@ -1,9 +1,11 @@
-class ruby::service {
+class ruby::service (
+  $app_name = "ruby",
+){
 
-  service { $ruby::params::app_name:
+  service { $app_name:
     ensure => running,
     provider => upstart,
-    require => [ Class[Ruby::Install], Class[Ruby::Config], Class[Ruby::Deps] ],
+    require => [ Class[Ruby::Install], Class[Ruby::Config], Class[Ruby::Rbenv] ],
   }
 
 }
