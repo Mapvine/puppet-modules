@@ -18,7 +18,7 @@ class ruby::rbenv (
   $ruby_string = file("$repository_path/.ruby-version", "/dev/null")
   $requested_ruby = inline_template("<%= @ruby_string.chomp %>")   
   if $requested_ruby {
-      notice("using requested ruby version: $requested_ruby)
+      notice("using requested ruby version: $requested_ruby")
 	  rbenv::compile { "$requested_ruby":
 	    user => $username,
 	    home => $home,
