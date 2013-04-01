@@ -13,9 +13,9 @@ class ruby::rbenv (
   }
   
   # see if we need to compile a custom ruby version
-  if $ruby_verison {
-      notice("using requested ruby version: $requested_ruby")
-	  rbenv::compile { "$requested_ruby":
+  if $ruby_version {
+      notice("using requested ruby version: $ruby_version")
+	  rbenv::compile { $ruby_version:
 	    user => $username,
 	    home => $home,
 	    global => true,
@@ -28,9 +28,9 @@ class ruby::rbenv (
 	    cwd => $repository_path,
 	    user => $username,
 	    group => $group,
-	    require => Rbenv::Compile[$requested_ruby],
+	    require => Rbenv::Compile[$ruby_version],
 	  }
-	  $bundle_requires = [ Rbenv::Compile["$requested_ruby"], Exec["rehash-after-compile" ] ]
+	  $bundle_requires = [ Rbenv::Compile[$ruby_version], Exec["rehash-after-compile" ] ]
   } else {
   	notice("using system ruby")
     $bundle_requires = [ Rbenv::Install[$username] ]
