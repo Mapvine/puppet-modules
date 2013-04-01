@@ -10,6 +10,7 @@ script
   . /home/ubuntu/.opdemand
   export HOME=/home/ubuntu
   export PORT=<%= port %>
+  export CELERY_CONFIG_MODULE="c2server.celeryconfig"
   cd <%= engine.directory %>
   . venv/bin/activate
   exec <%= process.command %> >> <%= log_root %>/<%=process.name%>-<%=num%>.log 2>&1
