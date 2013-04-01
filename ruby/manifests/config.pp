@@ -6,7 +6,7 @@ class ruby::config (
   $app_name = "ruby",
   $port = 5000,
   $concurrency = "web=1",
-  $env_path = "/var/cache/opdemand/inputs.json",
+  $env_path = "/var/cache/opdemand/inputs.sh",
 ){
   
   # rebuild upstart conf files

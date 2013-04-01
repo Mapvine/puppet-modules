@@ -1,9 +1,16 @@
-class ruby::install {
+class ruby::install (
+  $system_packages = [],
+){
   
   # install base ruby packages
   $packages = [ "build-essential" ]
   package { $packages:
     ensure => present,
+  }
+  
+  # install system packages
+  package { $system_packages:
+    ensure => latest,
   }
   
   exec {"install-system-bundler":

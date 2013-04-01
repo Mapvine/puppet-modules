@@ -3,21 +3,17 @@ class ruby::rbenv (
   $group = "ubuntu",
   $home = "/home/ubuntu",  
   $repository_path = "/home/ubuntu/repo",
+  $ruby_version = "",
 ){
 
-  # require the repository so ~/repo/.ruby-version exists when evaluated
-  require opdemand::app::repository
-  
   # install base rbenv
   rbenv::install { $username:
     group => $group,
     home => $home,
   }
   
-  # check for a requested ruby version in the repo
-  $ruby_string = file("$repository_path/.ruby-version", "/dev/null")
-  $requested_ruby = inline_template("<%= @ruby_string.chomp %>")   
-  if $requested_ruby {
+  # see if we need to compile a custom ruby version
+  if $ruby_verison {
       notice("using requested ruby version: $requested_ruby")
 	  rbenv::compile { "$requested_ruby":
 	    user => $username,
@@ -33,7 +29,7 @@ class ruby::rbenv (
 	    user => $username,
 	    group => $group,
 	    require => Rbenv::Compile[$requested_ruby],
-	  }	  
+	  }
 	  $bundle_requires = [ Rbenv::Compile["$requested_ruby"], Exec["rehash-after-compile" ] ]
   } else {
   	notice("using system ruby")
