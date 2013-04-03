@@ -29,5 +29,13 @@ class opdemand::app::ruby {
     # pass requested ruby version through to rbenv
     ruby_version => hiera("RUBY_VERSION", ""),
   }
+  
+  class {"ruby::rake":
+    username => hiera("APPLICATION_USERNAME", "ubuntu"),
+    group => hiera("APPLICATION_GROUP", "ubuntu"),
+    home => hiera("APPLICATION_HOME", "/home/ubuntu"),
+    repository_path => hiera("APPLICATION_REPOSITORY_PATH", "/home/ubuntu/repo"),
+  }
+  
 
 }

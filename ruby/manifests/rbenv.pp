@@ -21,16 +21,7 @@ class ruby::rbenv (
 	    global => true,
 	    require => Rbenv::Install[$username];
 	  }
-	  # rehash after compile
-	  exec { "rehash-after-compile":
-	    command => "rbenv rehash",
-	    path => "$home/.rbenv/bin:${home}/.rbenv/shims:/bin:/usr/bin",
-	    cwd => $repository_path,
-	    user => $username,
-	    group => $group,
-	    require => Rbenv::Compile[$ruby_version],
-	  }
-	  $bundle_requires = [ Rbenv::Compile[$ruby_version], Exec["rehash-after-compile" ] ]
+	  $bundle_requires = [ Rbenv::Compile[$ruby_version] ]
   } else {
   	notice("using system ruby")
     $bundle_requires = [ Rbenv::Install[$username] ]
@@ -43,6 +34,7 @@ class ruby::rbenv (
     # show output to find missing system libraries
     logoutput => true,
     path => "$home/bin:$home/.rbenv/bin:$home/.rbenv/shims:/bin:/usr/bin",
+    environment => "HOME=$home",
     cwd => $repository_path,
     user => $username,
     group => $group,
@@ -53,7 +45,8 @@ class ruby::rbenv (
   # rehash after calling bundle
   exec { "rehash":
     command => "rbenv rehash",
-    path => "$home/.rbenv/bin:${home}/.rbenv/shims:/bin:/usr/bin",
+    environment => "HOME=$home",
+    path => "$home/.rbenv/bin:$home/.rbenv/shims:/bin:/usr/bin",
     cwd => $repository_path,
     user => $username,
     group => $group,
