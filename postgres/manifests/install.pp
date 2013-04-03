@@ -17,4 +17,8 @@ class postgres::install {
     require => Package["postgresql"],
   }
   
+  file { '/var/log/puppet':
+    ensure => directory,
+  }
+  
 }
