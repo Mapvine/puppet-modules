@@ -39,6 +39,7 @@ class opdemand::app::ruby {
   
   # parse database variables
   if hiera("POSTGRES_HOST", "") != "" {
+    $init_db = true
     $database_type = "postgresql"
     $database_encoding = "unicode"
     $database_name = hiera("POSTGRES_DBNAME", "app")
@@ -51,6 +52,7 @@ class opdemand::app::ruby {
     $database_timeout = hiera("POSTGRES_TIMEOUT", 5000)
     $database_reconnect = hiera("POSTGRES_RECONNECT", true)
   } elsif hiera("MYSQL_HOST", "") != "" {
+    $init_db = true
     $database_type = "mysql"
     $database_encoding = "utf8"
     $database_name = hiera("MYSQL_DBNAME", "")
@@ -63,35 +65,27 @@ class opdemand::app::ruby {
     $database_timeout = hiera("MYSQL_TIMEOUT", 5000)
     $database_reconnect = hiera("MYSQL_RECONNECT", true)
   } else {
-    $database_type = "sqlite3"
-    $database_encoding = ""
-    $database_name = "production.sqlite3"
-    $database_host = ""
-    $database_port = ""    
-    $database_username = ""
-    $database_password = ""
-    # optional params
-    $database_pool = 5
-    $database_timeout = 5000
-    $database_reconnect = ""
+    $init_db = false
   }
   
-  class {"ruby::db":
-    username => hiera("APPLICATION_USERNAME", "ubuntu"),
-    group => hiera("APPLICATION_GROUP", "ubuntu"),
-    home => hiera("APPLICATION_HOME", "/home/ubuntu"),
-    repository_path => hiera("APPLICATION_REPOSITORY_PATH", "/home/ubuntu/repo"),
-    # database settings
-    database_type => $database_type,
-    database_encoding => $database_encoding,
-    database_name => $database_name,
-    database_host => $database_host,
-    database_port => $database_port,   
-    database_username => $database_username,
-    database_password => $database_password,
-    database_pool => $database_pool,
-    database_timeout => $database_timeout,
-    database_reconnect => $database_reconnect,
+  if $init_db {
+    class {"ruby::db":
+      username => hiera("APPLICATION_USERNAME", "ubuntu"),
+      group => hiera("APPLICATION_GROUP", "ubuntu"),
+      home => hiera("APPLICATION_HOME", "/home/ubuntu"),
+      repository_path => hiera("APPLICATION_REPOSITORY_PATH", "/home/ubuntu/repo"),
+      # database settings
+      database_type => $database_type,
+      database_encoding => $database_encoding,
+	  database_name => $database_name,
+	  database_host => $database_host,
+      database_port => $database_port,   
+      database_username => $database_username,
+      database_password => $database_password,
+      database_pool => $database_pool,
+      database_timeout => $database_timeout,
+      database_reconnect => $database_reconnect,
+    }
   }
   
 }
