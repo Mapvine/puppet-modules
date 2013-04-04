@@ -14,7 +14,8 @@ class opdemand::app::ruby {
     repository_path => hiera("APPLICATION_REPOSITORY_PATH", "/home/ubuntu/repo"),
     app_name => hiera("APPLICATION_NAME", "ruby"),
     port => hiera("APPLICATION_PORT", 5000),
-    concurrency => hiera("APPLICATION_CONCURRENCY", "web=1"),    
+    concurrency => hiera("APPLICATION_CONCURRENCY", "web=1"),
+    envvars => hiera("RUBY_ENVVARS", {}),
   }
 
   class {"ruby::service":

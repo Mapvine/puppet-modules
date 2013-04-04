@@ -12,6 +12,9 @@ script
   # start the application
   cd <%= engine.directory %>
   . /home/ubuntu/.opdemand
+  if [ -e /home/ubuntu/.ruby-env ]; then
+    . /home/ubuntu/.ruby-env
+  fi
   export PORT=<%= port %>
   exec <%= process.command %> >> <%= log_root %>/<%=process.name%>-<%=num%>.log 2>&1
 end script
