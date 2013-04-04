@@ -53,7 +53,7 @@ class opdemand::app::ruby {
     $database_reconnect = hiera("POSTGRES_RECONNECT", true)
   } elsif hiera("MYSQL_HOST", "") != "" {
     $init_db = true
-    $database_type = "mysql"
+    $database_type = "mysql2"
     $database_encoding = "utf8"
     $database_name = hiera("MYSQL_DBNAME", "")
     $database_host = hiera("MYSQL_HOST", "")
