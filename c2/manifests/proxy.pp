@@ -11,7 +11,7 @@ class c2::proxy (
   apt::ppa {$node_ppa:}
     
   package { $packages:
-    ensure => latest,
+    ensure => present, # should lock at 0.10.3
     require => Apt::Ppa[$node_ppa],
   }
 
