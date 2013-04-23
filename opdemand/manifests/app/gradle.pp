@@ -19,6 +19,8 @@ class opdemand::app::gradle {
   
   class {"gradle::gradlew":
     repository_path => hiera("APPLICATION_REPOSITORY_PATH", "/home/ubuntu/repo"),
+    username => hiera("APPLICATION_USERNAME", "ubuntu"),
+    group => hiera("APPLICATION_GROUP", "ubuntu"),
   }
 
   class {"gradle::service":

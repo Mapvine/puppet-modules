@@ -1,5 +1,7 @@
 class gradle::gradlew (
   $repository_path = "/home/ubuntu/repo",
+  $username = "ubuntu",
+  $group = "ubuntu",
 ){
   
   # run `gradle stage` if `gradelw` exists and is executable
