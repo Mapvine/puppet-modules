@@ -10,9 +10,17 @@ class grails::config (
   $envvars = {},
 ){
 
-  $custom_env_path = "$home/.opdemand-grails"
+  # write out JAVA_HOME to system-wide profile
+  file { "/etc/profile.d/java-home.sh":
+    ensure => file,
+    owner => "root",
+    group => "root",
+    source => "puppet:///modules/grails/java-home.sh",
+    mode => 0755,
+  }
   
   # write custom envvars to the file system
+  $custom_env_path = "$home/.opdemand-grails"
   file { $custom_env_path:
     ensure => file,
     owner => $username,
