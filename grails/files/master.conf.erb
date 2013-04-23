@@ -1,0 +1,10 @@
+start on filesystem and net-device-up IFACE=eth0
+
+pre-start script
+
+bash << "EOF"
+  mkdir -p <%= log_root %>
+  chown -R <%= user %> <%= log_root %>
+EOF
+
+end script
