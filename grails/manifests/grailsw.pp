@@ -57,7 +57,8 @@ class grails::grailsw (
     user => $username,
     group => $group,
     provider => shell,
-    command => "curl -fs http://s3pository.heroku.com/maven-central/org/mortbay/jetty/jetty-runner/$jetty_runner_version/jetty-runner-$jetty_runner_version.jar > server/jetty-runner.jar",
+    cwd => $repository_path,
+    command => "curl -fs http://s3pository.heroku.com/maven-central/org/mortbay/jetty/jetty-runner/$jetty_runner_version/jetty-runner-$jetty_runner_version.jar > $repository_path/server/jetty-runner.jar",
     unless => "test -e $repository_path/server/jetty-runner.jar",
     require => [ Class[Grails::Install], Class[Grails::Config], File["$repository_path/server"] ],
   }
