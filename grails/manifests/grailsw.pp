@@ -54,13 +54,13 @@ class grails::grailsw (
     mode => 0755,
   }
   
-  exec {"download-jetty":
+  exec {"download-jetty-runner":
     user => $username,
     group => $group,
     provider => shell,
     command => "curl -fs http://s3pository.heroku.com/maven-central/org/mortbay/jetty/jetty-runner/$jetty_runner_version/jetty-runner-$jetty_runner_version.jar > server/jetty-runner.jar",
     unless => "test -e $repository_path/server/jetty-runner.jar",
-    require => File["$repository_path/server"],
+    require => [ Class[Grails::Install], Class[Grails::Config], File["$repository_path/server"] ],
   }
     
 }
