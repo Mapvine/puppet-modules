@@ -4,7 +4,7 @@ class gradle::gradlew (
   
   # run `gradle stage` if `gradelw` exists and is executable
   exec { "stage":
-    command => "$repository_path/gradlew",
+    command => "$repository_path/gradlew stage",
     # log raw output from shell command
     logoutput => true,
     cwd => $repository_path,

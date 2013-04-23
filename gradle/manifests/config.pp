@@ -6,7 +6,7 @@ class gradle::config (
   $app_name = "gradle",
   $port = 5000,
   $concurrency = "web=1",
-  $env_path = "/home/ubuntu/.opdemand",
+  $env_path = "/var/cache/opdemand/inputs.sh",
   $envvars = {},
 ){
 

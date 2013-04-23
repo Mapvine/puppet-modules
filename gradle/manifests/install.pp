@@ -1,16 +1,13 @@
 class gradle::install (
-  $system_packages = [],
+  $system_packages = ["openjdk-6-jdk", "maven2"],
 ){
+
+  # webupdat8 PPA to support oracle-* packages (https://launchpad.net/~webupd8team/+archive/java)
+  apt::ppa {"ppa:webupd8team/java":}
   
   # install runtime and tools
-  $packages = [ "openjdk-6-jdk", "maven2" ]
-  package { $packages:
-    ensure => present,	 # stability over new hotness
-  }
-  
-  # install provided system packages
   package { $system_packages:
-    ensure => latest, 	 # stability over new hotness
+    ensure => present,	 # stability over new hotness
   }
 
   # create define for upstart template installation
