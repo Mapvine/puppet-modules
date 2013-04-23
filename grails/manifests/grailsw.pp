@@ -4,14 +4,22 @@ class grails::grailsw (
   $group = "ubuntu",
 ){
   
+  # write out a JAVA_HOME wrapper
+  file {"$repository_path/javaw":
+    ensure => file,
+    owner => $username,
+    group => $group,
+    source => "puppet:///modules/grails/javaw",
+    mode => 0755,
+  }
+  
   # run `grails compile` and `grails war`
   # only if `gradelw` exists and is executable
   
   exec { "compile":
-    command => "$repository_path/grailsw compile --non-interactive",
+    command => "$repository_path/javaw $repository_path/grailsw compile --non-interactive",
     # log raw output from shell command
     logoutput => true,
-    provider => "shell",
     cwd => $repository_path,
     path => ["$repository_path", "$repository_path/bin", "/sbin", "/bin", "/usr/bin", "/usr/local/bin"],
     user => $username,
@@ -23,10 +31,9 @@ class grails::grailsw (
   }
 
   exec { "war":
-    command => "$repository_path/grailsw war --non-interactive",
+    command => "$repository_path/javaw $repository_path/grailsw war --non-interactive",
     # log raw output from shell command
     logoutput => true,
-    provider => "shell",
     cwd => $repository_path,
     path => ["$repository_path", "$repository_path/bin", "/sbin", "/bin", "/usr/bin", "/usr/local/bin"],
     user => $username,
