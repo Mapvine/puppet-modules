@@ -1,4 +1,4 @@
-class gradle::gradelw (
+class gradle::gradlew (
   $repository_path = "/home/ubuntu/repo",
 ){
   
