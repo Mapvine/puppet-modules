@@ -11,6 +11,7 @@ class grails::grailsw (
     group => $group,
     source => "puppet:///modules/grails/javaw",
     mode => 0755,
+    require => [Class[Grails::Install], Class[Grails::Config] ],
   }
   
   # run `grails compile` and `grails war` only if `gradelw` exists and is executable

@@ -11,6 +11,7 @@ class gradle::gradlew (
     group => $group,
     source => "puppet:///modules/gradle/javaw",
     mode => 0755,
+    require => [Class[Gradle::Install], Class[Gradle::Config] ],
   }
   
   # run `gradle stage` if `gradelw` exists and is executable
