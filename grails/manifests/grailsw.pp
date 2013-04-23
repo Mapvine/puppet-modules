@@ -12,7 +12,6 @@ class grails::grailsw (
     # log raw output from shell command
     logoutput => true,
     provider => "shell",
-    environment => 'JAVA_HOME=$(readlink -f /usr/bin/javac | sed "s:/bin/javac::")',
     cwd => $repository_path,
     path => ["$repository_path", "$repository_path/bin", "/sbin", "/bin", "/usr/bin", "/usr/local/bin"],
     user => $username,
@@ -28,7 +27,6 @@ class grails::grailsw (
     # log raw output from shell command
     logoutput => true,
     provider => "shell",
-    environment => 'JAVA_HOME=$(readlink -f /usr/bin/javac | sed "s:/bin/javac::")',
     cwd => $repository_path,
     path => ["$repository_path", "$repository_path/bin", "/sbin", "/bin", "/usr/bin", "/usr/local/bin"],
     user => $username,
