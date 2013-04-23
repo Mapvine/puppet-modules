@@ -11,11 +11,11 @@ class grails::config (
 ){
 
   # write out JAVA_HOME to system-wide profile
-  file { "/etc/profile.d/java-home.sh":
+  file { "/etc/profile.d/java.sh":
     ensure => file,
     owner => "root",
     group => "root",
-    source => "puppet:///modules/grails/java-home.sh",
+    source => "puppet:///modules/grails/java.sh",
     mode => 0755,
   }
   
