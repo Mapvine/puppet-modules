@@ -29,7 +29,7 @@ class gradle::install (
   # create define for upstart template installation
   define upstart_template () {
     file { "/var/cache/opdemand/$name":
-      source => "puppet:///modules/jetty/$name",
+      source => "puppet:///modules/gradle/$name",
     }
   }
 
