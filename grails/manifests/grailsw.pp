@@ -13,8 +13,7 @@ class grails::grailsw (
     mode => 0755,
   }
   
-  # run `grails compile` and `grails war`
-  # only if `gradelw` exists and is executable
+  # run `grails compile` and `grails war` only if `gradelw` exists and is executable
   
   exec { "compile":
     command => "$repository_path/javaw $repository_path/grailsw compile --non-interactive",
