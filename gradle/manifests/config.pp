@@ -10,9 +10,17 @@ class gradle::config (
   $envvars = {},
 ){
 
-  $custom_env_path = "$home/.opdemand-gradle"
-  
+  # write out JAVA_HOME to system-wide profile
+  file { "/etc/profile.d/java.sh":
+    ensure => file,
+    owner => "root",
+    group => "root",
+    source => "puppet:///modules/gradle/java.sh",
+    mode => 0755,
+  }
+    
   # write custom envvars to the file system
+  $custom_env_path = "$home/.opdemand-gradle"
   file { $custom_env_path:
     ensure => file,
     owner => $username,

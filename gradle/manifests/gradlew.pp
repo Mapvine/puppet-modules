@@ -3,10 +3,19 @@ class gradle::gradlew (
   $username = "ubuntu",
   $group = "ubuntu",
 ){
+
+  # write out a JAVA_HOME wrapper
+  file {"$repository_path/javaw":
+    ensure => file,
+    owner => $username,
+    group => $group,
+    source => "puppet:///modules/gradle/javaw",
+    mode => 0755,
+  }
   
   # run `gradle stage` if `gradelw` exists and is executable
   exec { "stage":
-    command => "$repository_path/gradlew stage",
+    command => "$repository_path/javaw $repository_path/gradlew stage",
     # log raw output from shell command
     logoutput => true,
     cwd => $repository_path,
