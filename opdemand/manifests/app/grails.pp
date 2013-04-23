@@ -11,6 +11,7 @@ class opdemand::app::grails {
     username => hiera("APPLICATION_USERNAME", "ubuntu"),
     group => hiera("APPLICATION_GROUP", "ubuntu"),
     home => hiera("APPLICATION_HOME", "/home/ubuntu"),
+    envvars => hiera("GRAILS_ENVVARS", {}),
   }
 
   class {"grails::install":
