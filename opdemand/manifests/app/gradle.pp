@@ -11,7 +11,7 @@ class opdemand::app::gradle {
     username => hiera("APPLICATION_USERNAME", "ubuntu"),
     group => hiera("APPLICATION_GROUP", "ubuntu"),
     home => hiera("APPLICATION_HOME", "/home/ubuntu"),
-    envvars => hiera("GRAILS_ENVVARS", {}),
+    envvars => hiera("GRADLE_ENVVARS", {}),
   }
 
   class {"gradle::install":
