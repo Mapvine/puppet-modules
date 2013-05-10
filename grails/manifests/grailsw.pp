@@ -14,10 +14,10 @@ class grails::grailsw (
     require => [Class[Grails::Install], Class[Grails::Config] ],
   }
   
-  # run `grails compile` and `grails war` only if `gradelw` exists and is executable
+  # run `grails clean` and `grails war` only if `gradelw` exists and is executable
   
-  exec { "compile":
-    command => "$repository_path/javaw $repository_path/grailsw compile --non-interactive",
+  exec { "clean":
+    command => "$repository_path/javaw $repository_path/grailsw clean --non-interactive",
     # log raw output from shell command
     logoutput => true,
     cwd => $repository_path,
@@ -38,7 +38,7 @@ class grails::grailsw (
     path => ["$repository_path", "$repository_path/bin", "/sbin", "/bin", "/usr/bin", "/usr/local/bin"],
     user => $username,
     group => $group,
-    require => [Class[Grails::Install], Class[Grails::Config], Exec["compile"] ],
+    require => [Class[Grails::Install], Class[Grails::Config], Exec["clean"] ],
     subscribe => Vcsrepo[$repository_path],
     # only if the script exists and is executable
     onlyif => "test -x $repository_path/grailsw",
