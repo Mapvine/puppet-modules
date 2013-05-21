@@ -1,0 +1,47 @@
+
+# define upstream for our app listeners
+upstream listeners {
+    <% Integer(app_listeners).times do |i| %>server localhost:<%= Integer( Integer(app_port) + i) %>;<% end %>
+}
+
+server {
+    # base server config
+    listen <%= nginx_port %> default;
+    server_name <%= server_name %>;
+    rewrite ^ https://$server_name$request_uri? permanent;
+}
+
+server {
+    listen         443;
+    server_name    <%= server_name %>;
+    ssl            on;
+    # log config
+    access_log /var/log/nginx/access.log;
+    error_log /var/log/nginx/error.log;
+
+    # serve /static directly out of the public root
+    location /static {
+        root <%= public_root %>;
+    }
+
+    # pass all other traffic to the workers
+    location / {
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header Host $http_host;
+        proxy_redirect off;
+
+        proxy_pass http://listeners;
+    }
+
+    # add error page support
+    error_page 404 /404.html;
+    location = /404.html {
+        root <%= public_root %>;
+    }
+    error_page 500 502 503 504 /500.html;
+    location = /500.html {
+        root <%= public_root %>;
+    }
+
+}
+
