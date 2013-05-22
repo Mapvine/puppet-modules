@@ -12,9 +12,9 @@ server {
 	ssl_certificate /usr/local/nginx/conf/server.crt;
 	ssl_certificate_key /usr/local/nginx/conf/server.key;
     server_name <%= server_name %>;
-	#if ($scheme = http) {
-	#	 rewrite ^ https://<%= server_name %>$request_uri? permanent;
-	#}
+	if ($scheme = http) {
+		 rewrite ^ https://<%= server_name %>$request_uri? permanent;
+	}
 
     # log config
     access_log /var/log/nginx/access.log;
