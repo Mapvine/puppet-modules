@@ -1,5 +1,5 @@
 class nginx::config (
-  $template_name = "default",
+  $template_name = "mapvine",
   $public_root = "/home/ubuntu/repo/public",
   $server_name = $ec2_public_hostname,
   $nginx_port = 80,
