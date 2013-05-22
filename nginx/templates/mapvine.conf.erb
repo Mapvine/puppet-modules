@@ -5,20 +5,16 @@ upstream listeners {
 }
 
 server {
+    
     # base server config
-    listen <%= nginx_port %> default;
+    listen <%= nginx_port %>;
     server_name <%= server_name %>;
-    rewrite ^ https://$server_name$request_uri? permanent;
-}
+    return 301 https://$server_name$request_uri? permanent;
 
-server {
-    listen         443;
-    server_name    <%= server_name %>;
-    ssl            on;
     # log config
     access_log /var/log/nginx/access.log;
     error_log /var/log/nginx/error.log;
-
+    
     # serve /static directly out of the public root
     location /static {
         root <%= public_root %>;
@@ -29,7 +25,7 @@ server {
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
         proxy_set_header Host $http_host;
         proxy_redirect off;
-
+                    
         proxy_pass http://listeners;
     }
 
@@ -42,6 +38,5 @@ server {
     location = /500.html {
         root <%= public_root %>;
     }
-
+    
 }
-
