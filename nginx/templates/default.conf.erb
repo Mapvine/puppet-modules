@@ -28,6 +28,9 @@ server {
         proxy_pass http://listeners;
     }
 
+    # set max body size to a high number
+    client_max_body_size 500mb;
+
     # add error page support
     error_page 404 /404.html;
     location = /404.html {
