@@ -33,6 +33,9 @@ server {
         proxy_pass http://listeners;
     }
 
+    # disable body_size
+    client_max_body_size 0;    
+
     # add error page support
     error_page 404 /404.html;
     location = /404.html {
