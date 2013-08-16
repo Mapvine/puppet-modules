@@ -15,21 +15,26 @@ server {
 		return 301 https://$http_host$request_uri;
 	}
 
-    if ($scheme = "http") {
-        return 301 https://$http_host$request_uri;
-    }
-
     # log config
     access_log /var/log/nginx/access.log;
     error_log /var/log/nginx/error.log;
     
-    # serve /static directly out of the public root
-    location /static {
-        root <%= public_root %>;
+    location /sytemHeatlh {
+        # INSIDE HEALTHCHECK, do regular stuff
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $http_x_forwarded_proto;
+        proxy_set_header Host $http_host;
+        proxy_redirect off;
+                    
+        proxy_pass http://listeners;
     }
 
     # pass all other traffic to the workers
     location / {
+        # OUTSIDE HEALTHCHECK; see if we need to redirect to https
+        if ($http_x_forwarded_proto = "") {
+            return 301 https://$http_host$request_uri;
+        }
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
 		proxy_set_header X-Forwarded-Proto $http_x_forwarded_proto;
         proxy_set_header Host $http_host;
